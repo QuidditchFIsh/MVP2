@@ -38,7 +38,7 @@ public class grpahics extends event
 		//f.setExtendedState(Frame.MAXIMIZED_BOTH);
 		f.addWindowListener(new WindowAdapter() {public void windowClosing(WindowEvent we) {System.exit(0);}});
 		f.setSize(800,800);
-		f.setLayout(new GridLayout(1,2,1,1));
+		f.setLayout(new GridLayout(2,1,1,1));
 		
 		p = new JPanel();
 		l = new JLabel();

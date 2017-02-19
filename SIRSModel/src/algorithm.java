@@ -4,8 +4,9 @@ import java.util.Random;
 public class algorithm extends Functions
 {
 	@SuppressWarnings("static-access")
-	public static double sirs(int[][] grid,double p1, double p2, double p3,int n,int iterations,boolean graphic,BufferedImage bi,grpahics g)
+	public static void sirs(int[][] grid,double p1, double p2, double p3,int iterations,boolean graphic,BufferedImage bi,grpahics g)
 	{
+		int n = grid.length;
 		Random rand = new Random();
 		int randi,randj;
 		int counter=0;
@@ -50,11 +51,13 @@ public class algorithm extends Functions
 					{
 						avgOrder+=orderParam(grid);
 						counter++;
-						//System.out.println(avgOrder);
-						//System.out.println(avgOrder);
 					}
 		}
-		//System.out.println(avgOrder);
 		return avgOrder/counter;
+	}
+	
+	public static double dataReturn()
+	{
+		
 	}
 }
