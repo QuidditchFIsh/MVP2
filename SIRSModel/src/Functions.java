@@ -1,5 +1,6 @@
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.Random;
 
 public class Functions 
 {
@@ -41,5 +42,41 @@ public class Functions
 			bw.newLine();
 		}
 		//Print out everything to the file using buffered writer!
+	}
+	public static double bootStrap(double[] sample)
+	{
+		//Hoepfully this is the correct bootstrap algorithm 
+		//Will go through it when i get home!!!!
+		Random rand = new Random();
+		int m =   sample.length;
+		double[] bootSample = new double[m];
+		double[] sampleVar = new double[m];
+		//not sure if k here is meant to me less than m or not?????
+		for(int j=0;j<m;j++)
+		{
+			for(int i=0;i<sample.length;i++)
+			{
+				bootSample[i]= sample[rand.nextInt(m)];
+			}
+			sampleVar[j] = standardDeviation(bootSample,bootSample.length);
+			//need to add in the temp and other terms to this calculation!!!!!
+		}
+		return Math.sqrt(standardDeviation(sampleVar,sampleVar.length));
+
+
+
+	}
+	public static double standardDeviation(double[] mag,double sweeps)
+	{
+		double mag1 =0,magSqd =0;
+
+		for(int i=0;i<mag.length;i++)
+		{
+			mag1 += mag[i];
+			magSqd+= mag[i] * mag[i];
+		}
+		magSqd /= sweeps;
+		mag1 /= sweeps;
+		return (magSqd - (mag1*mag1));
 	}
 }

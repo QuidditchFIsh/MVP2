@@ -4,13 +4,14 @@ import java.util.Random;
 public class algorithm extends Functions
 {
 	@SuppressWarnings("static-access")
-	public static void sirs(int[][] grid,double p1, double p2, double p3,int iterations,boolean graphic,BufferedImage bi,grpahics g)
+	public static double[] sirs(int[][] grid,double p1, double p2, double p3,int iterations,boolean graphic,BufferedImage bi,grpahics g)
 	{
 		int n = grid.length;
 		Random rand = new Random();
 		int randi,randj;
 		int counter=0;
-		double avgOrder=0;
+		double[] avgOrder=new double[1000000];
+		//FIX THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		for(int i=0;i<iterations;i++)
 		{
 			randi=rand.nextInt(n);
@@ -49,15 +50,12 @@ public class algorithm extends Functions
 				if(i/(n*n)>10)
 					if(i % (n*n*10) == 0)
 					{
-						avgOrder+=orderParam(grid);
+						avgOrder[counter]=orderParam(grid);
 						counter++;
 					}
 		}
-		return avgOrder/counter;
+		return avgOrder;
 	}
 	
-	public static double dataReturn()
-	{
-		
-	}
+
 }

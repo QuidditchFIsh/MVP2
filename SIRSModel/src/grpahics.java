@@ -30,11 +30,11 @@ public class grpahics extends event
 	static int sliderValue;
 	static JLabel l;
 	
-	public grpahics(int[][] grid,BufferedImage bi)
+	public grpahics(int[][] grid,BufferedImage bi,boolean graphics)
 	{
 		f = new JFrame();
 		f.setIgnoreRepaint(true);
-		f.setVisible(true);
+		f.setVisible(graphics);
 		//f.setExtendedState(Frame.MAXIMIZED_BOTH);
 		f.addWindowListener(new WindowAdapter() {public void windowClosing(WindowEvent we) {System.exit(0);}});
 		f.setSize(800,800);
