@@ -56,12 +56,12 @@ public class SIRS
 		}
 		else
 		{
-			double[][] result = new double[200][3];
+			double[][] result = new double[(int)((1/probstep)*((1/probstep)+3))][3];
 			for(int i=0;i<noRuns;i++)
 			{
 
-				double [][] varienceArray = new double[200][noRuns];
-				//SOLVE THIS ISSUE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ^^
+				double [][] varienceArray = new double[(int)((1/probstep)*((1/probstep)+3) + 1)][noRuns];
+				System.out.println(varienceArray.length);
 				for(double[] coloum :result)
 					Arrays.fill(coloum, 0);
 				int counter=0;
@@ -71,7 +71,6 @@ public class SIRS
 				{
 					for(double prob3 =0;prob3<1;prob3 = prob3+probstep)
 					{
-
 						varienceArray[counter]=algorithm.sirs(SIRS_grid, prob1, p2, prob3, itertations, graphics,bi,g);
 						result[counter][2] = Math.sqrt(Functions.standardDeviation(varienceArray[counter], varienceArray[counter].length));
 						result[counter][1] = prob3;
@@ -86,10 +85,10 @@ public class SIRS
 							}
 						}
 					}
-
 				}
+				Functions.processData(bw,result,probstep);
 			}
-			Functions.processData(bw,result);
+
 			bw.close();
 		}
 		System.exit(0);

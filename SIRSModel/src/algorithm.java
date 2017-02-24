@@ -10,8 +10,7 @@ public class algorithm extends Functions
 		Random rand = new Random();
 		int randi,randj;
 		int counter=0;
-		double[] avgOrder=new double[1000000];
-		//FIX THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		double[] avgOrder=new double[(int)(iterations/(n*n*10))];
 		for(int i=0;i<iterations;i++)
 		{
 			randi=rand.nextInt(n);

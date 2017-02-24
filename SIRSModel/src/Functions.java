@@ -31,15 +31,23 @@ public class Functions
 		//System.out.println(noInfect/(n*n));
 		return noInfect/(n*n);
 	}
-	public static void processData(BufferedWriter bw,double[][] results) throws IOException
+	public static void processData(BufferedWriter bw,double[][] results,double probSpace) throws IOException
 	{
+		int counter=0;
 		for(int i=0;i<results.length;i++)
 		{
+			
 			for(int j=0;j<results[0].length;j++)
 			{
 				bw.write(String.valueOf(results[i][j] + " "));
 			}
 			bw.newLine();
+			counter++;
+			if(counter == (int) 1/(probSpace))
+			{
+				counter=0;
+				bw.newLine();
+			}
 		}
 		//Print out everything to the file using buffered writer!
 	}
@@ -66,7 +74,7 @@ public class Functions
 
 
 	}
-	public static double standardDeviation(double[] mag,double sweeps)
+	public synchronized static double standardDeviation(double[] mag,double sweeps)
 	{
 		double mag1 =0,magSqd =0;
 
