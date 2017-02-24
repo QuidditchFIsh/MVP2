@@ -1,17 +1,19 @@
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.Random;
 
 public class algorithm extends Functions
 {
 	@SuppressWarnings("static-access")
-	public static double[] sirs(int[][] grid,double p1, double p2, double p3,int iterations,boolean graphic,BufferedImage bi,grpahics g,int output,BufferedWriter bw)
+	public static double[] sirs(int[][] grid,double p1, double p2, double p3,int iterations,boolean graphic,BufferedImage bi,grpahics g,int output,BufferedWriter bw) throws IOException
 	{
 		int n = grid.length;
 		Random rand = new Random();
 		int randi,randj;
 		int counter=0;
 		double[] avgOrder=new double[(int)(iterations/(n*n*10))];
+		double temp =0;
 		for(int i=0;i<iterations;i++)
 		{
 			randi=rand.nextInt(n);
@@ -42,22 +44,27 @@ public class algorithm extends Functions
 				}
 			}
 			if(graphic)
-				if(i % (g.getSliderValue()) == 0)
+				if(i % 50 == 0)
 				{
+					//g.slider.getValue()
 					grpahics.update(grid, bi);
 				}
 			if(!graphic)
-				if(i/(n*n)>10)
+				if(i/(n*n)>100)
 				{
 					if(i % (n*n*10) == 0)
 					{
-						avgOrder[counter]=orderParam(grid);
+						temp = orderParam(grid);
+						avgOrder[counter]=temp;
 						counter++;
+
 					}
-					if(output == 1)
+					if(output == 1 && i %(n*n)==0)
 					{
-						
+						writeData(bw,orderParam(grid));
 					}
+
+
 				}
 		}
 		return avgOrder;

@@ -52,7 +52,7 @@ public class Functions
 		//Print out everything to the file using buffered writer!
 	}
 	
-	public void writeData(BufferedWriter bw,double result) throws IOException
+	public static void writeData(BufferedWriter bw,double result) throws IOException
 	{
 		bw.write(String.valueOf(result));
 		bw.newLine();

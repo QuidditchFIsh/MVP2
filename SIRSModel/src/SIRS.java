@@ -28,15 +28,15 @@ public class SIRS
 		System.out.println("Enter the Mode which you wish to Run in:");
 		runMode=input.nextInt();
 		BufferedWriter bw;
-//		if(runMode != 2)
-//		{
-//		System.out.println("Enter the name of the file which the output is being written to:");
-//		 bw = new BufferedWriter(new FileWriter(input.next()));
-//		}
-//		else
-//		{
-//			bw = new BufferedWriter(new FileWriter("graphicDump"));
-//		}
+
+		for(int j=0;j<n;j++)
+		{
+			for(int k=0;k<n;k++)
+			{
+				SIRS_grid[j][k] = rand.nextInt(3);
+			}
+		}
+		
 		System.out.println("Enter the name of the file which the output is being written to:");
 		bw = new BufferedWriter(new FileWriter(input.next()));
 		if(runMode == 0)
@@ -68,13 +68,7 @@ public class SIRS
 		input.close();
 		//pass in all the vairbales for the system
 
-		for(int j=0;j<n;j++)
-		{
-			for(int k=0;k<n;k++)
-			{
-				SIRS_grid[j][k] = rand.nextInt(3);
-			}
-		}
+
 		BufferedImage bi = new BufferedImage(n, n, BufferedImage.TYPE_INT_RGB);
 		grpahics g = new grpahics(SIRS_grid,bi,graphics);
 		if(runMode ==0)
