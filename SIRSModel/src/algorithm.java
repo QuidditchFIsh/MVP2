@@ -1,10 +1,11 @@
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.util.Random;
 
 public class algorithm extends Functions
 {
 	@SuppressWarnings("static-access")
-	public static double[] sirs(int[][] grid,double p1, double p2, double p3,int iterations,boolean graphic,BufferedImage bi,grpahics g)
+	public static double[] sirs(int[][] grid,double p1, double p2, double p3,int iterations,boolean graphic,BufferedImage bi,grpahics g,int output,BufferedWriter bw)
 	{
 		int n = grid.length;
 		Random rand = new Random();
@@ -47,11 +48,17 @@ public class algorithm extends Functions
 				}
 			if(!graphic)
 				if(i/(n*n)>10)
+				{
 					if(i % (n*n*10) == 0)
 					{
 						avgOrder[counter]=orderParam(grid);
 						counter++;
 					}
+					if(output == 1)
+					{
+						
+					}
+				}
 		}
 		return avgOrder;
 	}
