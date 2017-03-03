@@ -21,7 +21,7 @@ import javax.swing.event.ChangeListener;
 
 
 
-public class grpahics extends event
+public class grpahics
 {
 	static JPanel p;
 	static JFrame f;

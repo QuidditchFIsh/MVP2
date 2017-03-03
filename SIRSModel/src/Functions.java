@@ -93,4 +93,15 @@ public class Functions
 		mag1 /= sweeps;
 		return (magSqd - (mag1*mag1));
 	}
+	
+	public static double average(double[] avgData)
+	{
+		int n = avgData.length;
+		double sum=0;
+		for(int i=0;i<n;i++)
+		{
+			sum +=avgData[i];
+		}
+		return sum/((double) n );
+	}
 }
