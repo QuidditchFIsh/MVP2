@@ -46,7 +46,8 @@ public class grpahics extends event
 		l.setText("Speed");
 		
 		slider = new JSlider(JSlider.HORIZONTAL,1,grid.length*grid.length,1);
-		slider.setValue(grid.length*grid.length);
+//		slider.setValue(grid.length*grid.length);
+		slider.setValue(50);
 		sliderValue = slider.getValue();
 		
 		event e = new event();

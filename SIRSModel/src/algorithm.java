@@ -6,8 +6,9 @@ import java.util.Random;
 public class algorithm extends Functions
 {
 	@SuppressWarnings("static-access")
-	public static double[] sirs(int[][] grid,double p1, double p2, double p3,int iterations,boolean graphic,BufferedImage bi,grpahics g,int output,BufferedWriter bw) throws IOException
+	public synchronized static double[] sirs(int[][] grid,double p1, double p2, double p3,int iterations,boolean graphic,BufferedImage bi,grpahics g,int output,BufferedWriter bw) throws IOException
 	{
+		int counter1=0;
 		int n = grid.length;
 		Random rand = new Random();
 		int randi,randj;
@@ -44,13 +45,15 @@ public class algorithm extends Functions
 				}
 			}
 			if(graphic)
-				if(i % 50 == 0)
+			{
+				if(i % g.slider.getValue() == 0)
 				{
-					//g.slider.getValue()
+					
 					grpahics.update(grid, bi);
 				}
+			}
 			if(!graphic)
-				if(i/(n*n)>100)
+				if(i/(n*n)>10)
 				{
 					if(i % (n*n*10) == 0)
 					{

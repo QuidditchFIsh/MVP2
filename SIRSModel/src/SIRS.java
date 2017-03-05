@@ -9,21 +9,24 @@ import java.util.Scanner;
 
 public class SIRS
 {
-	public static void main(String[] args) throws IOException
+	public SIRS(int n,double p1,double p2,double p3) throws IOException
 	{
-		int n = Integer.parseInt(args[0]);
+		Scanner input = new Scanner(System.in);
+		System.out.println("Enter the size of the System:");
+		//int n = input.nextInt();
 		int[][] SIRS_grid = new int[n][n];
-		double p1 = Double.parseDouble(args[1]);
-		double p2 = Double.parseDouble(args[2]);
-		double p3 = Double.parseDouble(args[3]);
+		System.out.println("Enter the probabilities (p1,p2,p3)");
+		//double p1 = input.nextDouble();
+		//double p2 = input.nextDouble();
+		//double p3 = input.nextDouble();
 		boolean graphics = false;
-		int itertations =20000*n*n;
+		int itertations =5000*n*n;
 		double probstep =0;
 		int noRuns =1;
 		int runMode =0;
 		Random rand = new Random();
 		//Run mode describes which graphs to be outputted 0 = data run, 1 = live data run, 2 = grpahics run.
-		Scanner input = new Scanner(System.in);
+
 		System.out.println("Mode 0: Data Run\nMode 1: Live Data Run \nMode 2: Graphics Run");
 		System.out.println("Enter the Mode which you wish to Run in:");
 		runMode=input.nextInt();
@@ -61,7 +64,7 @@ public class SIRS
 			graphics = true;
 			BufferedImage bi = new BufferedImage(n, n, BufferedImage.TYPE_INT_RGB);
 			grpahics g = new grpahics(SIRS_grid,bi,graphics);
-			algorithm.sirs(SIRS_grid, p1, p2, p3, itertations, graphics,bi,g,0,bw);
+			algorithm.sirs(SIRS_grid, p1, p2, p3, itertations, graphics,bi,g,1,bw);
 		}
 
 
@@ -108,7 +111,7 @@ public class SIRS
 
 		if(runMode ==1)
 		{
-			algorithm.sirs(SIRS_grid, p1, p2, p2, itertations, graphics,bi,g,1,bw);
+			algorithm.sirs(SIRS_grid, p1, p2, p3, itertations, graphics,bi,g,1,bw);
 		}
 
 

@@ -34,6 +34,21 @@ public class Functions
 	public static void processData(BufferedWriter bw,double[][] results,double probSpace) throws IOException
 	{
 		int counter=0;
+		double prob1=0,prob2=0;
+		for(int j=0;j<results.length;j++)
+		{
+			if(prob2 > 1)
+			{
+				prob2=0;
+				prob1 += probSpace;
+			}
+			results[j][0] = prob1;
+			results[j][1] = prob2;
+			prob2 += probSpace;
+			
+			
+		}
+		
 		for(int i=0;i<results.length;i++)
 		{
 			
@@ -43,7 +58,7 @@ public class Functions
 			}
 			bw.newLine();
 			counter++;
-			if(counter == (int) 1/(probSpace))
+			if(counter == (int) 1/(probSpace) +1)
 			{
 				counter=0;
 				bw.newLine();
