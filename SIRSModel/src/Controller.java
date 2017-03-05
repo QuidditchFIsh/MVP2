@@ -57,11 +57,8 @@ public class Controller
 				{
 					for(double j=0;j<1;j = j+ probStep)
 					{
-						//System.out.println(counter +" " +j+" "+i);
 						//now add each of the algorithms to the threadpool
 						executor.submit(new process(SIRS_grid, i, 0.5, j, iterations, bw, bi, g, counter, runMode,probStep));
-						//re-initalise the grid
-						//System.out.println(i +" "+ j+ " "+counter);
 						counter++;
 
 					}
@@ -80,9 +77,7 @@ public class Controller
 
 
 			} 
-			catch (IOException e) {e.printStackTrace();} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			catch (IOException e) {e.printStackTrace();} catch (InterruptedException e) {e.printStackTrace();}
 		}
 		else if(runMode ==2)
 		{
@@ -90,20 +85,50 @@ public class Controller
 			System.out.println("Enter The Data File Name:");
 			try {
 				BufferedWriter bw = new BufferedWriter(new FileWriter(input.next()));
-				ExecutorService executor = Executors.newFixedThreadPool(100);
-
+				
+				System.out.println("Enter the probabilities (p1,p2,p3)");
+				double p1 = input.nextDouble();
+				double p2 = input.nextDouble();
+				double p3 = input.nextDouble();
+				
+				algorithm.sirs(SIRS_grid, p1, p2, p3, iterations, false,bi,g,1,bw);
 			} 
 			catch (IOException e) {e.printStackTrace();}
+			
+
 		}
 		else if(runMode ==3)
 		{
+			System.out.println("Enter the seperation of immunity:");
+			double immuneStep = input.nextDouble();
 			grpahics g = new grpahics(SIRS_grid,bi,false);
 			System.out.println("Enter The Data File Name:");
 			try {
 				BufferedWriter bw = new BufferedWriter(new FileWriter(input.next()));
 				ExecutorService executor = Executors.newFixedThreadPool(2);  
+				
+				for(double i=0;i<1;i= i + immuneStep)
+				{
+					for(double j=0;j<1;j= j + immuneStep)
+					{
+						//i is immune fraction, j is probability.
+						executor.submit(new process(SIRS_grid, 0.5, 0.5, j, iterations, bw, bi, g, counter, runMode,immuneStep,i));
+						counter++;
+					}
+				}
+				
+				executor.shutdown();
+
+				//Now wait for all the tasks to finish
+
+				executor.awaitTermination(1, TimeUnit.DAYS);
+				System.out.println("All Tasks Finished");
+
+				Functions.processData(bw,process.getResult(),immuneStep);
+
+				bw.close();
 			} 
-			catch (IOException e) {e.printStackTrace();}
+			catch (IOException e) {e.printStackTrace();} catch (InterruptedException e) {e.printStackTrace();}
 		}
 		else if(runMode ==4)
 		{
@@ -146,6 +171,7 @@ class process implements Runnable
 	private volatile double[] varienceArray;
 	private volatile Random rand = new Random();
 	private volatile double immune;
+	private volatile int randi=0,randj=0,n;
 
 
 
@@ -163,6 +189,25 @@ class process implements Runnable
 		this.counter = counter;
 		this.runMode = runMode;
 		result = new double[(int)((1.2/probStep)*(1/probStep))][3];
+		this.n = SIRS_grid.length;
+
+	}
+	public process(int[][] SIRS_grid, double p1,double p2,double p3, int iterations, BufferedWriter bw, BufferedImage bi, grpahics g,int counter,int runMode,double probStep,double immune)
+	{
+		//PERHAPS REDUCE THE NUMBER OF PARAMETERS PASSED IN
+		this.SIRS_grid=SIRS_grid;
+		this.p1 = p1;
+		this.p2 = p2;
+		this.p3 = p3;
+		this.iterations=iterations;
+		this.bw = bw;
+		this.bi=bi;
+		this.g=g;
+		this.counter = counter;
+		this.runMode = runMode;
+		result = new double[(int)((1.2/probStep)*(1/probStep))][3];
+		this.n = SIRS_grid.length;
+		this.immune = immune; 
 
 	}
 
@@ -205,13 +250,13 @@ class process implements Runnable
 					randj = rand.nextInt(n);
 					SIRS_grid[randi][randj]=4;
 				}
+				result[counter][2] = Functions.average(algorithm.sirs(SIRS_grid, p1, p2, p3, iterations, false,bi,g,0,bw));
 
 			}
 			catch (IOException e) {e.printStackTrace();}
 		}
 
 	}
-	//}
 	public static double[][] getResult()
 	{
 		return result;

@@ -22,12 +22,12 @@ public class SIRS
 		boolean graphics = false;
 		int itertations =5000*n*n;
 		double probstep =0;
-		int noRuns =1;
+		double immuneStep =0;
 		int runMode =0;
 		Random rand = new Random();
 		//Run mode describes which graphs to be outputted 0 = data run, 1 = live data run, 2 = grpahics run.
 
-		System.out.println("Mode 0: Data Run\nMode 1: Live Data Run \nMode 2: Graphics Run");
+		System.out.println("Mode 0: Data Run\nMode 1: Live Data Run \nMode 2: Graphics Run\nMode 3: Immune Mode");
 		System.out.println("Enter the Mode which you wish to Run in:");
 		runMode=input.nextInt();
 		BufferedWriter bw;
@@ -39,9 +39,16 @@ public class SIRS
 				SIRS_grid[j][k] = rand.nextInt(3);
 			}
 		}
-		
-		System.out.println("Enter the name of the file which the output is being written to:");
-		bw = new BufferedWriter(new FileWriter(input.next()));
+
+		if(runMode == 2)
+		{
+			bw = new BufferedWriter(new FileWriter("Dump"));
+		}
+		else
+		{
+			System.out.println("Enter the name of the file which the output is being written to:");
+			bw = new BufferedWriter(new FileWriter(input.next()));
+		}
 		if(runMode == 0)
 		{
 			System.out.println("Enter the number of sweeps to take data for");
@@ -66,6 +73,16 @@ public class SIRS
 			grpahics g = new grpahics(SIRS_grid,bi,graphics);
 			algorithm.sirs(SIRS_grid, p1, p2, p3, itertations, graphics,bi,g,1,bw);
 		}
+		else if(runMode == 3)
+		{
+			graphics = false;
+			System.out.println("Enter the number of sweeps to take data for");
+			itertations =input.nextInt()*n*n;
+			System.out.println("Enter the immune Step");
+			immuneStep = input.nextDouble();
+			System.out.println("Enter the probability Step");
+			probstep = input.nextDouble();
+		}
 
 
 		input.close();
@@ -77,6 +94,7 @@ public class SIRS
 		if(runMode ==0)
 		{
 			double[][] result = new double[(int)((1/probstep)*((1/probstep)+3))][3];
+			//FIX THIS IF THERE IS MORE THAN 1 RUN!!!!!!!!!!!!!!!!!!!
 			for(int i=0;i<noRuns;i++)
 			{
 
@@ -85,7 +103,7 @@ public class SIRS
 					Arrays.fill(coloum, 0);
 				int counter=0;
 
-		
+
 				for(double prob1=0;prob1<1;prob1=prob1+probstep)
 				{
 					for(double prob3 =0;prob3<1;prob3 = prob3+probstep)
@@ -105,13 +123,50 @@ public class SIRS
 						}
 					}
 				}
-				Functions.processData(bw,result,probstep);
+
 			}
+			Functions.processData(bw,result,probstep);
 		}
 
-		if(runMode ==1)
+		else if(runMode ==1)
 		{
 			algorithm.sirs(SIRS_grid, p1, p2, p3, itertations, graphics,bi,g,1,bw);
+		}
+		else if(runMode ==3)
+		{
+			double temp =0;
+			int counter =0;
+			double[][] result = new double[11000][3];
+			for(double[] coloum :result)
+				Arrays.fill(coloum, 0);
+			int randi=0,randj=0;
+			for(double immune =0;immune < 1;immune= immune + immuneStep)
+			{
+				for(double i=0;i<1;i = i + probstep)
+				{
+					for(int j=0;j<n;j++)
+					{
+						for(int k=0;k<n;k++)
+						{
+							SIRS_grid[j][k] = rand.nextInt(3);
+						}
+					}
+					for(int k=0;k<Math.floor(immune * (n*n));k++)
+					{
+						randi = rand.nextInt(n);
+						randj = rand.nextInt(n);
+						SIRS_grid[randi][randj] = 4;
+					}
+					temp = Functions.average(algorithm.sirs(SIRS_grid, i, 0.5, 0.5, itertations, graphics,bi,g,0,bw));
+					result[counter][2] =temp;
+					result[counter][0] = immune;
+					result[counter][1] = i;
+					counter++;
+					System.out.println(i + " " + immune);
+				}
+				
+			}
+			Functions.processData(bw,result,immuneStep);
 		}
 
 

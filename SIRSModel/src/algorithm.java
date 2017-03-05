@@ -19,8 +19,11 @@ public class algorithm extends Functions
 		{
 			randi=rand.nextInt(n);
 			randj=rand.nextInt(n);
+			if((grid[randi][randj]==4))
+			{
 
-			if(grid[randi][randj]==0)
+			}
+			else if(grid[randi][randj]==0)
 			{
 				if(checkNeighbors(grid,randi,randj))
 				{
@@ -72,6 +75,6 @@ public class algorithm extends Functions
 		}
 		return avgOrder;
 	}
-	
+
 
 }
