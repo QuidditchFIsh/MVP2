@@ -133,7 +133,7 @@ public class SIRS
 		{
 			double temp =0;
 			int counter =0;
-			double[][] result = new double[200][200];
+			double[][] result = new double[11000][3];
 			for(double[] coloum :result)
 				Arrays.fill(coloum, 0);
 			int randi=0,randj=0;
