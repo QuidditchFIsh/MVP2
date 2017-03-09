@@ -18,7 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
+/*
+ * Author: Nye Baker
+ * Object class to deal with graphics and GUI interface for the simulation
+ */
 
 
 public class grpahics
@@ -26,16 +29,15 @@ public class grpahics
 	static JPanel p;
 	static JFrame f;
 	static JSlider slider;
-	static int m =0;
 	static int sliderValue;
 	static JLabel l;
 	
 	public grpahics(int[][] grid,BufferedImage bi,boolean graphics)
 	{
+		//COnstructor too add the graphics to a frame and have sliders to controll the speed of the simulation.
 		f = new JFrame();
 		f.setIgnoreRepaint(true);
 		f.setVisible(graphics);
-		//f.setExtendedState(Frame.MAXIMIZED_BOTH);
 		f.addWindowListener(new WindowAdapter() {public void windowClosing(WindowEvent we) {System.exit(0);}});
 		f.setSize(800,800);
 		f.setLayout(new GridLayout(1,2,1,1));
@@ -46,7 +48,6 @@ public class grpahics
 		l.setText("Speed");
 		
 		slider = new JSlider(JSlider.HORIZONTAL,1,grid.length*grid.length,1);
-//		slider.setValue(grid.length*grid.length);
 		slider.setValue(50);
 		sliderValue = slider.getValue();
 		
@@ -63,6 +64,7 @@ public class grpahics
 	{
 		public void stateChanged(ChangeEvent e)
 		{
+			//Class which is always running to tell the slider what to do when it is moved.
 			sliderValue = slider.getValue();
 			
 		}
@@ -70,15 +72,15 @@ public class grpahics
 	}
 	public int getSliderValue()
 	{
-		//System.out.println(sliderValue);
 		return sliderValue;
-
+		//Get method to return the value of the slider when the program wants to update itself. 
 	}
 	
 	public static void update(int[][] grid,BufferedImage bi)
 	{
-		for (int x = 0; x < m; x++) 
-			for (int y = 0; y < m; y++)
+		//method to set the color of each cell in the grid when the program updates.
+		for (int x = 0; x < grid[0].length; x++) 
+			for (int y = 0; y < grid[0].length; y++)
 			{
 				if(grid[x][y]==0)
 					bi.setRGB(x, y,Color.YELLOW.getRGB());
@@ -86,14 +88,13 @@ public class grpahics
 					bi.setRGB(x, y, Color.RED.getRGB());
 				else if(grid[x][y]==2)
 					bi.setRGB(x, y, Color.BLUE.getRGB());
+				else if(grid[x][y]==4)
+					bi.setRGB(x, y, Color.GREEN.getRGB());
 			}
 	}
 
 	public static BufferedImage initaslise(int [][] grid,final BufferedImage bi)
 	{
-		int n = grid[0].length;
-		m=n;
-		//final BufferedImage bi = new BufferedImage(n, n, BufferedImage.TYPE_INT_RGB);
 		final Object lock = new Object();
 		
 		for (int x = 0; x < bi.getWidth(); x++) 
@@ -107,6 +108,7 @@ public class grpahics
 					bi.setRGB(x, y, Color.GREEN.getRGB());
 			}
 		//A loop is needed to refersh the background everytime
+		//The loop is in a new thread so as to run it along side the simulation.
 		new Timer().scheduleAtFixedRate(new TimerTask() 
 		{
 			public void run() 
@@ -118,7 +120,6 @@ public class grpahics
 			}
 		}, 0, 33);
 		
-		//another loop or thread will be needed to update the image so that the new grid is shown on the picture
 		return bi;
 		
 	}

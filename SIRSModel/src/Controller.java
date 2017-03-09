@@ -8,7 +8,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-/*
+/*Author:Nye Baker
+ * This controller class has the functionality of threading added into it.
  * Modes 
  * 1: Varience Data
  * 2: correlation function data
@@ -17,9 +18,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class Controller 
 {
-	@SuppressWarnings({ "unused", "resource" })
 	public static void main(String[] args)
 	{
+		//Enter all the parameters.
 		Random rand = new Random();
 		Scanner input = new Scanner(System.in);
 		System.out.println("Modes\n1: Varience Data\n2: Correlation Function Data\n3: Immune Data\n4: Graphics Run");
@@ -146,6 +147,8 @@ public class Controller
 		}
 
 		System.exit(0);
+		input.close();
+
 	}
 
 	/*
@@ -174,7 +177,7 @@ class process implements Runnable
 	private volatile int randi=0,randj=0,n;
 
 
-
+	//used two contructors as one is for the immune fraction and the other for the varience runs.
 	public process(int[][] SIRS_grid, double p1,double p2,double p3, int iterations, BufferedWriter bw, BufferedImage bi, grpahics g,int counter,int runMode,double probStep)
 	{
 		//PERHAPS REDUCE THE NUMBER OF PARAMETERS PASSED IN
@@ -213,7 +216,7 @@ class process implements Runnable
 
 	public void run() 
 	{
-
+		//Run just runs the program with the inputted runMode from the controlle class. 
 		if(runMode==1)
 		{
 			try 

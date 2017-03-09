@@ -2,10 +2,16 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Random;
 
+/*
+ * Author: Nye Baker
+ * A class where all mathematical function/Calculations are held.Or any type of function which is not realted to any class in particular.
+ */
+
 public class Functions 
 {
 	public static boolean checkNeighbors(int[][] grid,int i,int j)
 	{
+		//Method to check weather any of the neighbors of a cell is infected.
 		int n = grid.length;
 		if(grid[Math.floorMod(i+1, n)][j]==1 || grid[Math.floorMod(i-1, n)][j]==1 || grid[i][Math.floorMod(j-1, n)]==1 || grid[i][Math.floorMod(j+1, n)]==1)
 		{
@@ -16,6 +22,7 @@ public class Functions
 	
 	public static double orderParam(int[][] grid)
 	{
+		//Method to claculate the order paramter. Will loop over all the array and count the number of infected cells. 
 		int n= grid.length;
 		double noInfect=0;
 		for(int i=0;i<n;i++)
@@ -28,11 +35,12 @@ public class Functions
 				}
 			}
 		}
-		//System.out.println(noInfect/(n*n));
 		return noInfect/(n*n);
 	}
 	public static void processData(BufferedWriter bw,double[][] results,double probSpace) throws IOException
 	{
+		//Method to write the out the data to a specified file. Also the x and y values for the graph are written to
+		//the file here as it does not work when writing out them in the thread. 
 		int counter=0;
 		double prob1=0,prob2=0;
 		for(int j=0;j<results.length;j++)
@@ -60,6 +68,7 @@ public class Functions
 			counter++;
 			if(counter == (int) 1/(probSpace) +1)
 			{
+				//New line for pm3d 
 				counter=0;
 				bw.newLine();
 			}
@@ -69,34 +78,14 @@ public class Functions
 	
 	public static void writeData(BufferedWriter bw,double result) throws IOException
 	{
+		// simple write data for when doing 2d parameter graphs. 
 		bw.write(String.valueOf(result));
 		bw.newLine();
 	}
-	public static double bootStrap(double[] sample)
-	{
-		//Hoepfully this is the correct bootstrap algorithm 
-		//Will go through it when i get home!!!!
-		Random rand = new Random();
-		int m =   sample.length;
-		double[] bootSample = new double[m];
-		double[] sampleVar = new double[m];
-		//not sure if k here is meant to me less than m or not?????
-		for(int j=0;j<m;j++)
-		{
-			for(int i=0;i<sample.length;i++)
-			{
-				bootSample[i]= sample[rand.nextInt(m)];
-			}
-			sampleVar[j] = standardDeviation(bootSample,bootSample.length);
-			//need to add in the temp and other terms to this calculation!!!!!
-		}
-		return Math.sqrt(standardDeviation(sampleVar,sampleVar.length));
 
-
-
-	}
 	public synchronized static double standardDeviation(double[] mag,double sweeps)
 	{
+		//method to calculate the standard deviation of a set of variables which are passed in. 
 		double mag1 =0,magSqd =0;
 
 		for(int i=0;i<mag.length;i++)
@@ -111,6 +100,7 @@ public class Functions
 	
 	public static double average(double[] avgData)
 	{
+		//method to calcuate the average of a data set. 
 		int n = avgData.length;
 		double sum=0;
 		for(int i=0;i<n;i++)
