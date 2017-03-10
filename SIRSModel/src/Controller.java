@@ -52,7 +52,7 @@ public class Controller
 			try {
 				System.out.println("Enter The Data File Name:");
 				BufferedWriter bw = new BufferedWriter(new FileWriter(input.next()));
-				ExecutorService executor = Executors.newFixedThreadPool(10);
+				ExecutorService executor = Executors.newFixedThreadPool(5);
 				//here will need to loop over all the prbailities...
 				for(double i=0;i<1;i= i + probStep)
 				{
@@ -191,7 +191,7 @@ class process implements Runnable
 		this.g=g;
 		this.counter = counter;
 		this.runMode = runMode;
-		result = new double[(int)((1.2/probStep)*(1/probStep))][3];
+		result = new double[(int)((1.2/probStep)*(1/probStep))][4];
 		this.n = SIRS_grid.length;
 
 	}
@@ -230,6 +230,7 @@ class process implements Runnable
 				}
 				varienceArray=algorithm.sirs(SIRS_grid, p1, p2, p3, iterations, false,bi,g,0,bw);
 				result[counter][2] = Math.sqrt(Functions.standardDeviation(varienceArray, varienceArray.length));
+				result[counter][3] = Functions.average(varienceArray);
 
 			}
 			catch (IOException e) {e.printStackTrace();}
